@@ -90,6 +90,7 @@ function resetCaret() {
 }
 
 var canvas;
+var currentCanvas;
 var nodeRadius = 30;
 var nodes = [];
 var links = [];
@@ -160,7 +161,13 @@ function snapNode(node) {
 }
 
 window.onload = function() {
-	canvas = document.getElementById('canvas');
+	console.log('ola');
+	let canvasArray = document.querySelectorAll('#canvas');
+	let index = document.querySelector(".active");
+	let aux = index.id.split('t');
+	index = parseInt(aux[1],10)-1;
+	canvas = canvasArray[index];
+	console.log(canvas);
 	restoreBackup();
 	draw();
 

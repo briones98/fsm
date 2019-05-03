@@ -1,121 +1,265 @@
 <!doctype html>
-<html><head>
-	<title>Finite State Machine Designer - by Evan Wallace</title>
-  <meta charset="utf-8">
-	<style>
+<html>
+	<head>
+		<title>Finite State Machine Designer - by Evan Wallace</title>
+  		<meta charset="utf-8">
+		<style>
+			.tab {
+			  overflow: hidden;
+			  border: 1px solid #ccc;
+			  background-color: #f1f1f1;
+			}
 
-body {
-	text-align: center;
-	background: #DFDFDF;
-	margin: 0 30px 100px 30px;
-	font: 14px/18px 'Lucida Grande', 'Segoe UI', sans-serif;
-}
+			/* Style the buttons that are used to open the tab content */
+			.tab button {
+			  background-color: inherit;
+			  float: left;
+			  border: none;
+			  outline: none;
+			  cursor: pointer;
+			  padding: 14px 16px;
+			  transition: 0.3s;
+			}
 
-h1 {
-	font: bold italic 50px Georgia, serif;
-}
+			/* Change background color of buttons on hover */
+			.tab button:hover {
+			  background-color: #ddd;
+			}
 
-canvas {
-	display: block;
-	max-width: 800px;
-	background: white;
-	border-radius: 20px;
-	-moz-border-radius: 20px;
-	margin: 10px auto;
-}
+			/* Create an active/current tablink class */
+			.tab button.active {
+			  background-color: #ccc;
+			}
 
-a {
-	color: black;
-}
+			/* Style the tab content */
+			.tabcontent {
+			  display: none;
+			  padding: 6px 12px;
+			  border: 1px solid #ccc;
+			  border-top: none;
+			}
+			body {
+				text-align: center;
+				background: #DFDFDF;
+				margin: 0 30px 100px 30px;
+				font: 14px/18px 'Lucida Grande', 'Segoe UI', sans-serif;
+			}
 
-div {
-	margin: 30px auto;
-	text-align: left;
-	max-width: 800px;
-}
+			h1 {
+				font: bold italic 50px Georgia, serif;
+			}
 
-.error {
-	display: block;
-	color: red;
-	font-size: 28px;
-	line-height: 30px;
-	padding: 30px;
-}
+			canvas {
+				display: block;
+				max-width: 800px;
+				background: white;
+				border-radius: 20px;
+				-moz-border-radius: 20px;
+				margin: 10px auto;
+			}
 
-p {
-	margin: 30px 0;
-	line-height: 20px;
-}
+			a {
+				color: black;
+			}
 
-.center {
-	text-align: center;
-}
+			div {
+				margin: 30px auto;
+				text-align: left;
+				max-width: 800px;
+			}
 
-textarea {
-	display: none;
-	width: 75%;
-	height: 400px;
-	margin: 0 auto;
-}
+			.error {
+				display: block;
+				color: red;
+				font-size: 28px;
+				line-height: 30px;
+				padding: 30px;
+			}
 
-  </style>
-	<script src="fsm.js"></script>
-	<script>
+			p {
+				margin: 30px 0;
+				line-height: 20px;
+			}
 
-/*
- * base64.js - Base64 encoding and decoding functions
- *
- * See: http://developer.mozilla.org/en/docs/DOM:window.btoa
- *      http://developer.mozilla.org/en/docs/DOM:window.atob
- *
- * Copyright (c) 2007, David Lindquist <david.lindquist@gmail.com>
- * Released under the MIT license
- */
+			.center {
+				text-align: center;
+			}
 
-if (typeof btoa == 'undefined') {
-    function btoa(str) {
-        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-        var encoded = [];
-        var c = 0;
-        while (c < str.length) {
-            var b0 = str.charCodeAt(c++);
-            var b1 = str.charCodeAt(c++);
-            var b2 = str.charCodeAt(c++);
-            var buf = (b0 << 16) + ((b1 || 0) << 8) + (b2 || 0);
-            var i0 = (buf & (63 << 18)) >> 18;
-            var i1 = (buf & (63 << 12)) >> 12;
-            var i2 = isNaN(b1) ? 64 : (buf & (63 << 6)) >> 6;
-            var i3 = isNaN(b2) ? 64 : (buf & 63);
-            encoded[encoded.length] = chars.charAt(i0);
-            encoded[encoded.length] = chars.charAt(i1);
-            encoded[encoded.length] = chars.charAt(i2);
-            encoded[encoded.length] = chars.charAt(i3);
-        }
-        return encoded.join('');
-    }
-}
+			textarea {
+				display: none;
+				width: 75%;
+				height: 400px;
+				margin: 0 auto;
+			}
 
-	</script>
-</head><body>
-	<h1>Finite State Machine Designer</h1>
-	<canvas id="canvas" width="800" height="600">
-		<span class="error">Your browser does not support<br>the HTML5 &lt;canvas&gt; element</span>
-	</canvas>
-	<div>
-		<p class="center">Export as: <a href="javascript:saveAsPNG()">PNG</a> | <a href="javascript:saveAsSVG()">SVG</a> | <a href="javascript:saveAsLaTeX()">LaTeX</a></p>
-		<textarea id="output"></textarea>
-		<p>The big white box above is the FSM designer.&nbsp; Here's how to use it:</p>
-		<ul>
-			<li><b>Add a state:</b> double-click on the canvas</li>
-			<li><b>Add an arrow:</b> shift-drag on the canvas</li>
-			<li><b>Move something:</b> drag it around</li>
-			<li><b>Delete something:</b> click it and press the delete key (not the backspace key)</li>
-		</ul><ul>
-			<li><b>Make accept state:</b> double-click on an existing state</li>
-			<li><b>Type numeric subscript:</b> put an underscore before the number (like "S_0")</li>
-			<li><b>Type greek letter:</b> put a backslash before it (like "\beta")</li>
-		</ul>
-		<p>This was made in HTML5 and JavaScript using the canvas element.</p>
-	</div>
-	<p>Created by <a href="http://madebyevan.com/">Evan Wallace</a> in 2010</p>
-</body></html>
+			.pointer{
+				cursor: pointer;
+			}
+		</style>
+		<script src="../src/elements/link.js"></script>
+		<script src="../src/elements/node.js"></script>
+		<script src="../src/elements/self_link.js"></script>
+		<script src="../src/elements/start_link.js"></script>
+		<script src="../src/elements/temporary_link.js"></script>
+
+		<script src="../src/main/save.js"></script>
+		<script src="../src/main/math.js"></script>
+		<script src="../src/main/fsm.js"></script>
+		<script>
+			/*
+			 * base64.js - Base64 encoding and decoding functions
+			 *
+			 * See: http://developer.mozilla.org/en/docs/DOM:window.btoa
+			 *      http://developer.mozilla.org/en/docs/DOM:window.atob
+			 *
+			 * Copyright (c) 2007, David Lindquist <david.lindquist@gmail.com>
+			 * Released under the MIT license
+			 */
+			if (typeof btoa == 'undefined') {
+			    function btoa(str) {
+			        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+			        var encoded = [];
+			        var c = 0;
+			        while (c < str.length) {
+			            var b0 = str.charCodeAt(c++);
+			            var b1 = str.charCodeAt(c++);
+			            var b2 = str.charCodeAt(c++);
+			            var buf = (b0 << 16) + ((b1 || 0) << 8) + (b2 || 0);
+			            var i0 = (buf & (63 << 18)) >> 18;
+			            var i1 = (buf & (63 << 12)) >> 12;
+			            var i2 = isNaN(b1) ? 64 : (buf & (63 << 6)) >> 6;
+			            var i3 = isNaN(b2) ? 64 : (buf & 63);
+			            encoded[encoded.length] = chars.charAt(i0);
+			            encoded[encoded.length] = chars.charAt(i1);
+			            encoded[encoded.length] = chars.charAt(i2);
+			            encoded[encoded.length] = chars.charAt(i3);
+			        }
+			        return encoded.join('');
+			    }
+			}
+			function openCity(evt, cityName) {
+			  // Declare all variables
+			  var i, tabcontent, tablinks;
+
+			  // Get all elements with class="tabcontent" and hide them
+			  tabcontent = document.getElementsByClassName("tabcontent");
+			  for (i = 0; i < tabcontent.length; i++) {
+			  	console.log(tabcontent[i]);
+			    tabcontent[i].style.display = "none";
+			  }
+
+			  // Get all elements with class="tablinks" and remove the class "active"
+			  tablinks = document.getElementsByClassName("tablinks");
+			  for (i = 0; i < tablinks.length; i++) {
+			    tablinks[i].className = tablinks[i].className.replace(" active", "");
+			  }
+
+			  // Show the current tab, and add an "active" class to the button that opened the tab
+			  document.getElementById(cityName).style.display = "block";
+			  evt.currentTarget.className += " active";
+			  window.onload;
+			}
+			var cont = 1; 
+			function createTab(evt){
+				cont++;
+				var div = document.createElement('div');
+				div.id = "Tab "+cont;
+				div.className = "tabcontent"
+				var aux = document.getElementById('abas');
+				aux.appendChild(div);
+
+				var span = document.createElement('span');
+				span.className = 'topright pointer';
+				span.onclick = ()=>closeTab(event,span);
+				span.innerHTML = '&times';
+
+				var canvas = document.createElement('canvas');
+				canvas.id = 'canvas';
+				canvas.width = 800;
+				canvas.height = 600;
+
+				var span2 = document.createElement('span');
+				span2.className = 'error';
+				span2.innerHTML = 'erro';
+				var tablinks,i;
+
+				canvas.appendChild(span2);
+				div.appendChild(span);
+				div.appendChild(canvas);
+
+				var tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+				  	console.log(tabcontent[i]);
+				    tabcontent[i].style.display = "none";
+				}
+				div.style = 'display:block';
+
+				tablinks = document.getElementsByClassName("tablinks");
+			    for (i = 0; i < tablinks.length; i++) {
+			    	tablinks[i].className = tablinks[i].className.replace(" active", "");
+			    }
+
+				var button = document.createElement('button');
+				button.className = 'tablinks active';
+				button.id = 't'+cont;
+				button.onclick = ()=>openCity(event, 'Tab '+cont);
+				button.innerHTML = 'Tab '+cont;
+				var aux2 = document.getElementById('botoes');
+				aux2.appendChild(button);
+				window.onload;
+			}
+			function closeTab(event,esse){
+				esse.parentElement.style.display='none';
+				var aux = esse.parentElement.id;
+				aux = aux.split(' ');
+				var index = 't'+aux[1];
+				console.log(index);
+				document.querySelector('#'+index).style.display = 'none';
+				cont--;
+
+			}
+		</script>
+	</head>
+
+	<body>
+		<h1>Finite State Machine Designer</h1>
+		<div id="abas">
+			<div class="tab" id="botoes">
+				<button onclick="createTab(event)" class="center">+</button>
+				<button id="t1" class="tablinks" onclick="openCity(event, 'Tab 1')" id="defaultOpen">Tab 1</button>
+				<button id="t2" class="tablinks active" onclick="openCity(event, 'Tab 2')" id="defaultOpen">Tab 2</button>
+			</div>
+
+			<div id="Tab 1" class="tabcontent">
+				<span onclick="closeTab(event,this)" class="topright pointer">&times</span>
+				<canvas id="canvas" width="800" height="600">
+					<span class="error">Your browser does not support<br>the HTML5 &lt;canvas&gt; element</span>
+				</canvas>
+			</div>
+			<div id="Tab 2" class="tabcontent">
+				<span onclick="closeTab(event,this)" class="topright pointer">&times</span>
+				<canvas id="canvas" width="800" height="600">
+					<span class="error">Your browser does not support<br>the HTML5 &lt;canvas&gt; element</span>
+				</canvas>
+			</div>
+		</div>
+
+		<div>
+			<p class="center">Export as: <a href="javascript:saveAsPNG()">PNG</a> | <a href="javascript:saveAsSVG()">SVG</a> | <a href="javascript:saveAsLaTeX()">LaTeX</a></p>
+			<textarea id="output"></textarea>
+			<p>The big white box above is the FSM designer.&nbsp; Here's how to use it:</p>
+			<ul>
+				<li><b>Add a state:</b> double-click on the canvas</li>
+				<li><b>Add an arrow:</b> shift-drag on the canvas</li>
+				<li><b>Move something:</b> drag it around</li>
+				<li><b>Delete something:</b> click it and press the delete key (not the backspace key)</li>
+			</ul><ul>
+				<li><b>Make accept state:</b> double-click on an existing state</li>
+				<li><b>Type numeric subscript:</b> put an underscore before the number (like "S_0")</li>
+				<li><b>Type greek letter:</b> put a backslash before it (like "\beta")</li>
+			</ul>
+			<p>This was made in HTML5 and JavaScript using the canvas element.</p>
+		</div>
+		<p>Created by <a href="http://madebyevan.com/">Evan Wallace</a> in 2010</p>
+	</body>
+</html>
