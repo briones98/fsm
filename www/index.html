@@ -1,101 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Finite State Machine Designer - by Evan Wallace</title>
-  		<meta charset="utf-8">
-		<style>
-			.tab {
-			  overflow: hidden;
-			  border: 1px solid #ccc;
-			  background-color: #f1f1f1;
-			}
-
-			/* Style the buttons that are used to open the tab content */
-			.tab button {
-			  background-color: inherit;
-			  float: left;
-			  border: none;
-			  outline: none;
-			  cursor: pointer;
-			  padding: 14px 16px;
-			  transition: 0.3s;
-			}
-
-			/* Change background color of buttons on hover */
-			.tab button:hover {
-			  background-color: #ddd;
-			}
-
-			/* Create an active/current tablink class */
-			.tab button.active {
-			  background-color: #ccc;
-			}
-
-			/* Style the tab content */
-			.tabcontent {
-			  display: none;
-			  padding: 6px 12px;
-			  border: 1px solid #ccc;
-			  border-top: none;
-			}
-			body {
-				text-align: center;
-				background: #DFDFDF;
-				margin: 0 30px 100px 30px;
-				font: 14px/18px 'Lucida Grande', 'Segoe UI', sans-serif;
-			}
-
-			h1 {
-				font: bold italic 50px Georgia, serif;
-			}
-
-			canvas {
-				display: block;
-				max-width: 800px;
-				background: white;
-				border-radius: 20px;
-				-moz-border-radius: 20px;
-				margin: 10px auto;
-			}
-
-			a {
-				color: black;
-			}
-
-			div {
-				margin: 30px auto;
-				text-align: left;
-				max-width: 800px;
-			}
-
-			.error {
-				display: block;
-				color: red;
-				font-size: 28px;
-				line-height: 30px;
-				padding: 30px;
-			}
-
-			p {
-				margin: 30px 0;
-				line-height: 20px;
-			}
-
-			.center {
-				text-align: center;
-			}
-
-			textarea {
-				display: none;
-				width: 75%;
-				height: 400px;
-				margin: 0 auto;
-			}
-
-			.pointer{
-				cursor: pointer;
-			}
-		</style>
+		<!-- SCRIPTS -->
 		<script src="../src/elements/link.js"></script>
 		<script src="../src/elements/node.js"></script>
 		<script src="../src/elements/self_link.js"></script>
@@ -105,6 +11,13 @@
 		<script src="../src/main/save.js"></script>
 		<script src="../src/main/math.js"></script>
 		<script src="../src/main/fsm.js"></script>
+		<script src="../src/main/main.js"></script>
+
+		<link rel="stylesheet" href="../src/main/main.css"></link>
+		<title>Finite State Machine Designer - by Evan Wallace</title>
+  		<meta charset="utf-8">
+  		<!-- SCRIPTS -->
+		
 		<script>
 			/*
 			 * base64.js - Base64 encoding and decoding functions
@@ -137,101 +50,20 @@
 			        return encoded.join('');
 			    }
 			}
-			function openCity(evt, cityName) {
-			  // Declare all variables
-			  var i, tabcontent, tablinks;
-
-			  // Get all elements with class="tabcontent" and hide them
-			  tabcontent = document.getElementsByClassName("tabcontent");
-			  for (i = 0; i < tabcontent.length; i++) {
-			  	console.log(tabcontent[i]);
-			    tabcontent[i].style.display = "none";
-			  }
-
-			  // Get all elements with class="tablinks" and remove the class "active"
-			  tablinks = document.getElementsByClassName("tablinks");
-			  for (i = 0; i < tablinks.length; i++) {
-			    tablinks[i].className = tablinks[i].className.replace(" active", "");
-			  }
-
-			  // Show the current tab, and add an "active" class to the button that opened the tab
-			  document.getElementById(cityName).style.display = "block";
-			  evt.currentTarget.className += " active";
-			  window.onload;
-			}
-			var cont = 1; 
-			function createTab(evt){
-				cont++;
-				var div = document.createElement('div');
-				div.id = "Tab "+cont;
-				div.className = "tabcontent"
-				var aux = document.getElementById('abas');
-				aux.appendChild(div);
-
-				var span = document.createElement('span');
-				span.className = 'topright pointer';
-				span.onclick = ()=>closeTab(event,span);
-				span.innerHTML = '&times';
-
-				var canvas = document.createElement('canvas');
-				canvas.id = 'canvas';
-				canvas.width = 800;
-				canvas.height = 600;
-
-				var span2 = document.createElement('span');
-				span2.className = 'error';
-				span2.innerHTML = 'erro';
-				var tablinks,i;
-
-				canvas.appendChild(span2);
-				div.appendChild(span);
-				div.appendChild(canvas);
-
-				var tabcontent = document.getElementsByClassName("tabcontent");
-				for (i = 0; i < tabcontent.length; i++) {
-				  	console.log(tabcontent[i]);
-				    tabcontent[i].style.display = "none";
-				}
-				div.style = 'display:block';
-
-				tablinks = document.getElementsByClassName("tablinks");
-			    for (i = 0; i < tablinks.length; i++) {
-			    	tablinks[i].className = tablinks[i].className.replace(" active", "");
-			    }
-
-				var button = document.createElement('button');
-				button.className = 'tablinks active';
-				button.id = 't'+cont;
-				button.onclick = ()=>openCity(event, 'Tab '+cont);
-				button.innerHTML = 'Tab '+cont;
-				var aux2 = document.getElementById('botoes');
-				aux2.appendChild(button);
-				window.onload;
-			}
-			function closeTab(event,esse){
-				esse.parentElement.style.display='none';
-				var aux = esse.parentElement.id;
-				aux = aux.split(' ');
-				var index = 't'+aux[1];
-				console.log(index);
-				document.querySelector('#'+index).style.display = 'none';
-				cont--;
-
-			}
 		</script>
 	</head>
 
 	<body>
 		<h1>Finite State Machine Designer</h1>
-		<div id="abas">
-			<div class="tab" id="botoes">
+		<div id="tabs">
+			<div class="tab" id="tabmenu">
 				<button onclick="createTab(event)" class="center">+</button>
-				<button id="t1" class="tablinks active" onclick="openCity(event, 'Tab 1')" id="defaultOpen">Tab 1</button>
+				<button id="t1" class="tablinks active" onclick="openTab(event, 'Tab-1')">Tab 1</button>
 			</div>
 
-			<div id="Tab 1" class="tabcontent">
+			<div id="Tab-1" class="tabcontent" style="display:block">
 				<span onclick="closeTab(event,this)" class="topright pointer">&times</span>
-				<canvas id="canvas" width="800" height="600">
+				<canvas id="c1" width="800" height="600">
 					<span class="error">Your browser does not support<br>the HTML5 &lt;canvas&gt; element</span>
 				</canvas>
 			</div>

@@ -1,55 +1,65 @@
+
+
 function restoreBackup() {
-	if(!localStorage || !JSON) {
-		return;
-	}
+	// if(!localStorage || !JSON) {
+	// 	return;
+	// }
+	// var array = Object.values(localStorage);
+	// let recuperar = array.map((element,index)=>{
+	// 	try{
+	// 		var backup = JSON.parse(array[index]);
+	// 		for(var i = 0; i < backup.nodes.length; i++) {
+	// 			var backupNode = backup.nodes[i];
+	// 			var node = new Node(backupNode.x, backupNode.y);
+	// 			node.isAcceptState = backupNode.isAcceptState;
+	// 			node.text = backupNode.text;
+	// 			nodes.push(node);
+	// 		}
+	// 		for(var i = 0; i < backup.links.length; i++) {
+	// 			var backupLink = backup.links[i];
+	// 			var link = null;
+	// 			if(backupLink.type == 'SelfLink') {
+	// 				link = new SelfLink(nodes[backupLink.node]);
+	// 				link.anchorAngle = backupLink.anchorAngle;
+	// 				link.text = backupLink.text;
+	// 			} else if(backupLink.type == 'StartLink') {
+	// 				link = new StartLink(nodes[backupLink.node]);
+	// 				link.deltaX = backupLink.deltaX;
+	// 				link.deltaY = backupLink.deltaY;
+	// 				link.text = backupLink.text;
+	// 			} else if(backupLink.type == 'Link') {
+	// 				link = new Link(nodes[backupLink.nodeA], nodes[backupLink.nodeB]);
+	// 				link.parallelPart = backupLink.parallelPart;
+	// 				link.perpendicularPart = backupLink.perpendicularPart;
+	// 				link.text = backupLink.text;
+	// 				link.lineAngleAdjust = backupLink.lineAngleAdjust;
+	// 			}
+	// 			if(link != null) {
+	// 				links.push(link);
+	// 			}
+	// 		}
+	// 		return backup;
+	// 	} catch(e) {
+	// 		return array[index] = '';
+	// 	}
+	// });
+	console.log('recuperar');
 
-	try {
-		var backup = JSON.parse(localStorage['fsm']);
-
-		for(var i = 0; i < backup.nodes.length; i++) {
-			var backupNode = backup.nodes[i];
-			var node = new Node(backupNode.x, backupNode.y);
-			node.isAcceptState = backupNode.isAcceptState;
-			node.text = backupNode.text;
-			nodes.push(node);
-		}
-		for(var i = 0; i < backup.links.length; i++) {
-			var backupLink = backup.links[i];
-			var link = null;
-			if(backupLink.type == 'SelfLink') {
-				link = new SelfLink(nodes[backupLink.node]);
-				link.anchorAngle = backupLink.anchorAngle;
-				link.text = backupLink.text;
-			} else if(backupLink.type == 'StartLink') {
-				link = new StartLink(nodes[backupLink.node]);
-				link.deltaX = backupLink.deltaX;
-				link.deltaY = backupLink.deltaY;
-				link.text = backupLink.text;
-			} else if(backupLink.type == 'Link') {
-				link = new Link(nodes[backupLink.nodeA], nodes[backupLink.nodeB]);
-				link.parallelPart = backupLink.parallelPart;
-				link.perpendicularPart = backupLink.perpendicularPart;
-				link.text = backupLink.text;
-				link.lineAngleAdjust = backupLink.lineAngleAdjust;
-			}
-			if(link != null) {
-				links.push(link);
-			}
-		}
-	} catch(e) {
-		localStorage['fsm'] = '';
-	}
+	
 }
 
-function saveBackup() {
+function saveBackup(canvas) {
+	console.log(canvas.id);
+	let index = canvas.id.split('c');
+	index = index[1];
 	if(!localStorage || !JSON) {
 		return;
 	}
-
 	var backup = {
 		'nodes': [],
 		'links': [],
 	};
+	console.log(localStorage);
 	for(var i = 0; i < nodes.length; i++) {
 		var node = nodes[i];
 		var backupNode = {
@@ -60,6 +70,7 @@ function saveBackup() {
 		};
 		backup.nodes.push(backupNode);
 	}
+	console.log(localStorage);
 	for(var i = 0; i < links.length; i++) {
 		var link = links[i];
 		var backupLink = null;
@@ -89,10 +100,12 @@ function saveBackup() {
 				'perpendicularPart': link.perpendicularPart,
 			};
 		}
+		console.log(localStorage);
 		if(backupLink != null) {
 			backup.links.push(backupLink);
 		}
 	}
 
-	localStorage['fsm'] = JSON.stringify(backup);
+	localStorage['fsm'+canvas.id-1] = JSON.stringify(backup);
+	console.log(localStorage['fsmc2']);
 }
