@@ -58,15 +58,13 @@
 		<div id="tabs">
 			<div class="tab" id="tabmenu">
 				<button onclick="createTab(event)" class="center">+</button>
-				<button id="t1" class="tablinks active" onclick="openTab(event, 'Tab-1')">Tab 1</button>
+				<button id="t1" class="tablinks active" onclick="openTab(event, 'Tab-1'); activateCanvas(1);">Tab 1</button> 
 			</div>
 
-			<div id="Tab-1" class="tabcontent" style="display:block">
-				<span onclick="closeTab(event,this)" class="topright pointer">&times</span>
-				<canvas id="c1" width="800" height="600">
-					<span class="error">Your browser does not support<br>the HTML5 &lt;canvas&gt; element</span>
-				</canvas>
-			</div>
+			<span onclick="closeTab(event,this)" class="topright pointer">&times</span>
+			<canvas id="canvas" width="800" height="600">
+				<span class="error">Your browser does not support<br>the HTML5 &lt;canvas&gt; element</span>
+			</canvas>
 		</div>
 
 		<div>

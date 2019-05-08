@@ -130,7 +130,7 @@ function drawUsing(c) {
 function draw() {
 	drawUsing(canvas.getContext('2d'));
 	console.log({ID: canvas.id});
-	saveBackup(canvas);
+	saveBackup(tabcontent);
 }
 
 function selectObject(x, y) {
@@ -161,17 +161,16 @@ function snapNode(node) {
 	}
 }
 
+var tabcontent;
+
 function activateCanvas(flag){
-	let canvasArray = document.querySelectorAll('canvas');
-	let index = document.querySelector(".active");
-	let aux = index.id.split('t');
-	index = parseInt(aux[1],10)-1;
-	canvas = canvasArray[index];
-	if(flag==1){
-		console.log('passei');
-		restoreBackup();
-	}
+
+	canvas = document.getElementById('canvas');
+	tabcontent = flag;
+	restoreBackup(flag);
+	console.log(tabcontent);
 	draw();
+	
 	canvas.onmousedown = function(e) {
 		var mouse = crossBrowserRelativeMousePos(e);
 		selectedObject = selectObject(mouse.x, mouse.y);
@@ -274,6 +273,7 @@ function activateCanvas(flag){
 window.onload = function(){
 	activateCanvas(1);
 }
+
 var shift = false;
 
 document.onkeydown = function(e) {
