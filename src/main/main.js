@@ -9,7 +9,6 @@ function openTab(evt) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
     // Show the current tab, and add an "active" class to the button that opened the tab
-    console.log(evt.currentTarget.className);
     evt.currentTarget.className = "tablinks active";
 }
 
@@ -36,9 +35,12 @@ function createTab(evt) {
 }
 
 function closeTab(event, esse) {
-    esse.parentElement.style.display = "none";
-    var aux = esse.parentElement.id;
-    aux = aux.split('-');
-    var index = 't' + aux[1];
-    document.querySelector('#' + index).style.display = "none";
+    var aba = document.querySelector(".tablinks.active");
+    aba.remove();
+
+    var id = aba.id.split("t")[1];
+    localStorage.removeItem("fsm"+id);
+
+    var nova_aba = document.querySelector(".tablinks");
+    nova_aba.click();
 }

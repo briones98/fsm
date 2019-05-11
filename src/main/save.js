@@ -45,7 +45,6 @@ function restoreBackup(localIndex) {
 	} catch(e) {
 		return flag = '';
 	}
-	console.log(localStorage);
 }
 
 
@@ -106,5 +105,4 @@ function saveBackup(index) {
 	}
 
 	localStorage['fsm'+index] = JSON.stringify(backup);
-	console.log(index);
 }

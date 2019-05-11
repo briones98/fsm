@@ -129,7 +129,6 @@ function drawUsing(c) {
 
 function draw() {
 	drawUsing(canvas.getContext('2d'));
-	console.log({ID: canvas.id});
 	saveBackup(tabcontent);
 }
 
@@ -168,7 +167,6 @@ function activateCanvas(flag){
 	canvas = document.getElementById('canvas');
 	tabcontent = flag;
 	restoreBackup(flag);
-	console.log(tabcontent);
 	draw();
 	
 	canvas.onmousedown = function(e) {
