@@ -1,5 +1,3 @@
-
-
 function openTab(evt) {
     // Declare all variables
     var i, tablinks;
@@ -42,5 +40,7 @@ function closeTab(event, esse) {
     localStorage.removeItem("fsm"+id);
 
     var nova_aba = document.querySelector(".tablinks");
-    nova_aba.click();
+    if(nova_aba != null){
+        nova_aba.click();
+    }
 }
