@@ -33,18 +33,15 @@ function createTab(evt) {
 }
 
 function closeTab(event) {
-    var aba = document.querySelector(".tablinks.active");
+    var abas = document.getElementsByClassName("tablinks");
     
-    if(aba){
-    aba.remove()
-    var id = aba.id.split("t")[1];
-    localStorage.removeItem("fsm"+id);
-    }
+    if(abas.length > 1){
+        aba = document.getElementsByClassName("tablinks active")[0];
+        aba.remove()
+        var id = aba.id.split("t")[1];
+        localStorage.removeItem("fsm"+id);
 
-    var nova_aba = document.querySelector(".tablinks");
-    if(nova_aba != null){
+        var nova_aba = document.getElementsByClassName("tablinks")[0];
         nova_aba.click();
-    }else{
-        localStorage.clear();
     }
 }

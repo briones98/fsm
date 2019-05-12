@@ -269,6 +269,7 @@ function activateCanvas(flag){
 }
 
 window.onload = function(){
+	localStorage.clear();
 	activateCanvas(1);
 }
 
