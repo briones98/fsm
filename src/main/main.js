@@ -26,21 +26,25 @@ function createTab(evt) {
         openTab(event);
         activateCanvas(index);
     }
-    button.innerHTML = 'Tab ' + cont;
+    button.innerHTML = 'FSM ' + cont;
     var aux2 = document.getElementById('tabmenu');
     aux2.appendChild(button);
     activateCanvas(index);
 }
 
-function closeTab(event, esse) {
+function closeTab(event) {
     var aba = document.querySelector(".tablinks.active");
-    aba.remove();
-
+    
+    if(aba){
+    aba.remove()
     var id = aba.id.split("t")[1];
     localStorage.removeItem("fsm"+id);
+    }
 
     var nova_aba = document.querySelector(".tablinks");
     if(nova_aba != null){
         nova_aba.click();
+    }else{
+        localStorage.clear();
     }
 }
