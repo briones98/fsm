@@ -43,5 +43,7 @@ function closeTab(event) {
 
         var nova_aba = document.getElementsByClassName("tablinks")[0];
         nova_aba.click();
+    }else{
+        alert("Pelo menos uma aba deve estar aberta!")
     }
 }
