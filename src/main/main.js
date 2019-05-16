@@ -36,13 +36,21 @@ function closeTab(event) {
     var abas = document.getElementsByClassName("tablinks");
     
     if(abas.length > 1){
-        aba = document.getElementsByClassName("tablinks active")[0];
-        aba.remove()
-        var id = aba.id.split("t")[1];
-        localStorage.removeItem("fsm"+id);
-
-        var nova_aba = document.getElementsByClassName("tablinks")[0];
-        nova_aba.click();
+        for(i = 0; i < abas.length; i++){
+            if(abas[i].className == "tablinks active"){
+                aba = abas[i];
+                aba.remove();
+                var id = aba.id.split("t")[1];
+                localStorage.removeItem("fsm"+id);
+                if(i >= 1){
+                    nova_aba = abas[i - 1];
+                    nova_aba.click(); 
+                }else{
+                    nova_aba = abas[i];
+                    nova_aba.click();
+                }
+            }
+        }
     }else{
         alert("Pelo menos uma aba deve estar aberta!")
     }
