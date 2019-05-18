@@ -52,6 +52,6 @@ function closeTab(event) {
             }
         }
     }else{
-        alert("Pelo menos uma aba deve estar aberta!")
+        alert("At least one flap must be open!")
     }
 }
