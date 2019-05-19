@@ -71,7 +71,7 @@ div {
 }
 
 p {
-	margin: 30px 0;
+	margin: 15px 0;
 	line-height: 20px;
 }
 
@@ -88,4 +88,4 @@ textarea {
 
 .pointer{
 	cursor: pointer;
-}	
+}
