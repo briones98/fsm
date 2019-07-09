@@ -162,6 +162,7 @@ function snapNode(node) {
 
 var tabcontent;
 
+//Make the canvas shows the content of a specified object of the localStorage
 function activateCanvas(flag){
 
 	canvas = document.getElementById('canvas');
@@ -169,7 +170,9 @@ function activateCanvas(flag){
 	restoreBackup(flag);
 	draw();
 	
+	//Define action when the user press a button of the mouse
 	canvas.onmousedown = function(e) {
+		//Get the position of the cursor nand make its an object
 		var mouse = crossBrowserRelativeMousePos(e);
 		selectedObject = selectObject(mouse.x, mouse.y);
 		movingObject = false;

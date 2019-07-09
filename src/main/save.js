@@ -50,19 +50,23 @@ function restoreBackup(localIndex) {
 	}
 }
 
-
+// Save a required canvas in the localStorage of the browser 
 function saveBackup(index) {
 	
 	if(!localStorage || !JSON) {
 		return;
 	}
+
+	//Create an object named backup, which has the 'nodes' and 'links' arrays in its structure
 	var backup = {
 		'nodes': [],
 		'links': [],
 	};
 	
+	//Fill the 'nodes' array, which is a part of the structure of the 'backup' object
 	for(var i = 0; i < nodes.length; i++) {
 		var node = nodes[i];
+		//Create an object named backupNode, which has four variables in its structure
 		var backupNode = {
 			'x': node.x,
 			'y': node.y,
@@ -72,10 +76,12 @@ function saveBackup(index) {
 		backup.nodes.push(backupNode);
 	}
 
+	//Fill the 'links' array, which is a part of the structure of the 'backup' object
 	for(var i = 0; i < links.length; i++) {
 		var link = links[i];
 		var backupLink = null;
 		if(link instanceof SelfLink) {
+			//Create an object named backupLink, which represent a SelfLink
 			backupLink = {
 				'type': 'SelfLink',
 				'node': nodes.indexOf(link.node),
@@ -83,6 +89,7 @@ function saveBackup(index) {
 				'anchorAngle': link.anchorAngle,
 			};
 		} else if(link instanceof StartLink) {
+			//Create an object named backupLink, which represent a StartLink
 			backupLink = {
 				'type': 'StartLink',
 				'node': nodes.indexOf(link.node),
@@ -91,6 +98,7 @@ function saveBackup(index) {
 				'deltaY': link.deltaY,
 			};
 		} else if(link instanceof Link) {
+			//Create an object named backupLink, which represent a Link
 			backupLink = {
 				'type': 'Link',
 				'nodeA': nodes.indexOf(link.nodeA),
