@@ -59,19 +59,27 @@
 
 	<body>
 		<h1>Finite State Machine Designer</h1>
+		<!-- Define a group of tabs -->
 		<div id="tabs">
+			<!-- Define the scructure of the tab menu -->
 			<div class="tab" id="tabmenu">
+				<!-- Button activated when the user tries to create a Tab by clicking on the '+' button -->
 				<button onclick="createTab(event)" class="center">+</button>
+				<!-- Button activated when the user clicks on a tab, allowing to switch among the tabs -->
 				<button id="t1" class="tablinks active" onclick="openTab(event); activateCanvas(1);">FSM 1</button> 
 			</div>
+			<!-- Span represents the button to close the activated tab -->
 			<span onclick="closeTab(event)" class="topright pointer">&times</span>
+			<!-- Canvas which is used to draw a automata -->
 			<canvas id="canvas" width="800" height="600">
 				<span class="error">Your browser does not support<br>the HTML5 &lt;canvas&gt; element</span>
 			</canvas>
 		</div>
 
 		<div>
+			<!-- Allow to export as PNG, SVG or LaTeX -->
 			<p class="center">Export as: <a href="javascript:saveAsPNG()">PNG</a> | <a href="javascript:saveAsSVG()">SVG</a> | <a href="javascript:saveAsLaTeX()">LaTeX</a></p>
+			<!-- Informations about the project -->
 			<textarea id="output"></textarea>
 			<p>The big white box above is the FSM designer.&nbsp; Here's how to use it:</p>
 			<ul>

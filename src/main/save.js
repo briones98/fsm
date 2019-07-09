@@ -1,5 +1,5 @@
 
-
+// Get the backup of a required canvas from the localStorage of the browser 
 function restoreBackup(localIndex) {
 
 	nodes = [];
@@ -10,7 +10,9 @@ function restoreBackup(localIndex) {
 	}
 
 	try{
+		// Convert a JSON, which has the structure of an required automata, to an object 
 		var backup = JSON.parse(localStorage['fsm'+localIndex]);
+		// Create the nodes of an automata based on the backup
 		for(var i = 0; i < backup.nodes.length; i++) {
 			var backupNode = backup.nodes[i];
 			var node = new Node(backupNode.x, backupNode.y);
@@ -18,6 +20,7 @@ function restoreBackup(localIndex) {
 			node.text = backupNode.text;
 			nodes.push(node);
 		}
+		// Create the links of an automata based on the backup
 		for(var i = 0; i < backup.links.length; i++) {
 			var backupLink = backup.links[i];
 			var link = null;
